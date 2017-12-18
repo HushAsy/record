@@ -3,6 +3,7 @@ package org.hhs.record.utils;
 import com.alibaba.fastjson.JSON;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.hhs.record.dao.pojo.Order;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -48,11 +49,6 @@ public class SqlOperation {
     //针对单条插入操作
     public boolean INSERToperation(Map<String, Object> map, Class<?> clazz)throws Exception{
         String sql = toInsertSql(map, clazz);
-        System.out.println(sql);
-//        System.out.println(sql);
-//        String sql = "INSERT INTO [order]([id],[u_id],[j_id],[c_id],[j_time]) VALUES('+70cc98d4de54483ca1d48ae93a6ea63c+','+asdf+','+42e6611383e3400c97f391da0075740f+','+743f3ea715074a1fa191cffe911d412c+','+2017-12-17 18:50:25+')";
-//        String sql = "INSERT INTO ORDER(id,u_id,j_id,c_id,j_time) VALUES(?,?,?,?,?);";
-//        PreparedStatement statement = DatabaseSource.getPreparedStatement(sql);
         Connection connection = DatabaseSource.generateConnection();
         Statement statement = connection.createStatement();
         statement.executeUpdate(sql);
@@ -85,7 +81,6 @@ public class SqlOperation {
 
     public boolean UPDATEoperation(Map<String, Object> map, Map<String, Object> paramMap, Class<?> clazz) throws SQLException {
         String sql = toUpdateSql(map, paramMap, clazz);
-        System.out.println(sql);
         Connection connection = DatabaseSource.generateConnection();
         Statement statement = connection.createStatement();
         statement.executeUpdate(sql);
@@ -127,21 +122,26 @@ public class SqlOperation {
 
     private String toDeleteSql(Map<String, Object> map, Class<?> clazz){
         String[] lineNames = getFiledName(clazz);
-        String queryStr = " WHERE ";
-        for (int i = 0; i < lineNames.length; i++){
-            if (lineNames.length == 1&& map.get(lineNames[i]) != null){
-                queryStr += lineNames[i]+"='"+map.get(lineNames[i])+"'";
-            }else {
-                if (i < lineNames.length-1 && map.get(lineNames[i]) != null){
-                    queryStr += lineNames[i]+"='"+map.get(lineNames[i])+"' AND ";
-                }else {
-                    if (map.get(lineNames[i]) != null){
-                        queryStr += lineNames[i]+"='"+map.get(lineNames[i])+"'";
+        String sql = "";
+        if(map != null) {
+            String queryStr = " WHERE ";
+            for (int i = 0; i < lineNames.length; i++) {
+                if (lineNames.length == 1 && map.get(lineNames[i]) != null) {
+                    queryStr += lineNames[i] + "='" + map.get(lineNames[i]) + "'";
+                } else {
+                    if (i < lineNames.length - 1 && map.get(lineNames[i]) != null) {
+                        queryStr += lineNames[i] + "='" + map.get(lineNames[i]) + "' AND ";
+                    } else {
+                        if (map.get(lineNames[i]) != null) {
+                            queryStr += lineNames[i] + "='" + map.get(lineNames[i]) + "'";
+                        }
                     }
                 }
             }
+            sql = "DELETE FROM "+clazz.getSimpleName().toUpperCase()+queryStr;
+        }else {
+            sql = "DELETE FROM ["+clazz.getSimpleName().toUpperCase()+"]";
         }
-        String sql = "DELETE FROM "+clazz.getSimpleName().toUpperCase()+queryStr;
         return sql;
     }
 

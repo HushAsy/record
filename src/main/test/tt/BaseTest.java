@@ -8,6 +8,7 @@ import org.hhs.record.utils.DatabaseSource;
 import org.hhs.record.utils.ObjectToMap;
 import org.hhs.record.utils.SqlOperation;
 import org.hhs.record.utils.StringUtils;
+import org.mockito.internal.matchers.Or;
 
 import java.sql.*;
 import java.util.*;
@@ -64,8 +65,12 @@ public class BaseTest {
 //        resultToMap.INSERToperation(ObjectToMap.objectToMap(user), User.class);
 //        String str = "select * from [order] o inner join [user] u on o.u_id=u.id where o.c_id='7a9fa1a2b7744489b428e2bf0235ea70'";
 //        String str = "select * from ([order] inner join [user] on order.u_id=user.id ) inner join [jiu] on o.j_id=jiu.id where order.c_id='7a9fa1a2b7744489b428e2bf0235ea70'";
-        String str = "select * from [user]";
-        List<Object> list = resultToMap.GETObjectLists(str);
-        System.out.println(list);
+//        String str = "select * from [user]";
+//        List<Object> list = resultToMap.GETObjectLists(str);
+//        System.out.println(list);
+        resultToMap.DELETEoperation(null, Order.class);
+        resultToMap.DELETEoperation(null, Code.class);
+        resultToMap.DELETEoperation(null, User.class);
+        resultToMap.DELETEoperation(null, Jiu.class);
     }
 }

@@ -2,6 +2,7 @@ package org.hhs.record.controller;
 
 import lombok.extern.slf4j.Slf4j;
 import org.hhs.record.dao.pojo.Code;
+import org.hhs.record.dao.pojo.Jiu;
 import org.hhs.record.dao.pojo.Order;
 import org.hhs.record.dao.pojo.User;
 import org.hhs.record.service.UserService;
@@ -20,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -32,7 +34,17 @@ public class HomeController {
     @Autowired
     private SqlOperation sqlOperation;
 
-    @RequestMapping("batchInsert.do")
+    @RequestMapping("jiu.do")
+    public String toJiu(){
+        return "/addJiu";
+    }
+
+    @RequestMapping("user.do")
+    public String toUser(){
+        return "/addUser";
+    }
+
+    @RequestMapping("batchInsertOrder.do")
     @ResponseBody
     public String batchInsert(@RequestParam("file") MultipartFile mfile,Order order){//u_id,j_id
         InputStream inputStream = null;
@@ -46,7 +58,7 @@ public class HomeController {
         List<String> listCode = new ArrayList<String>();
         try {
             String temp = "";
-            while (org.springframework.util.StringUtils.isEmpty(temp = br.readLine())){
+            while (!org.springframework.util.StringUtils.isEmpty(temp = br.readLine())){
                 listCode.add(temp);
             }
         } catch (IOException e) {
@@ -93,8 +105,18 @@ public class HomeController {
         return list;
     }
 
+    @RequestMapping("queryByCode.do")
+    @ResponseBody
     public List<Object> queryOrderInfo(String code) throws Exception {
-        String sql = "select * from [order] o inner join [user] u on o.u_id=u.id where o.c_id='"+code+"'";
+        List<Object> listCodes = sqlOperation.GETObjectLists("select * from [code] where code="+"'"+code+"'");
+        String id = "";
+        if (listCodes.size() == 0){
+            return Collections.emptyList();
+        }else {
+            Map<String, Object> map = (Map) listCodes.get(0);
+            id = (String) map.get("id");
+        }
+        String sql = "select * from [order] o inner join [user] u on o.u_id=u.id where o.c_id='"+id+"'";
         List<Object> objectList = sqlOperation.GETObjectLists(sql);
         for (Object obj : objectList){
             Map<String, Object> map = (Map<String, Object>) obj;
@@ -111,6 +133,7 @@ public class HomeController {
     @RequestMapping("insertOrder.do")
     @ResponseBody
     public String insertOrder(Order order) throws Exception {
+        order.setId(StringUtils.getUUID());
         sqlOperation.INSERToperation(ObjectToMap.objectToMap(order), Order.class);
         return "success";
     }
@@ -120,22 +143,24 @@ public class HomeController {
     //code表增加
     @RequestMapping("insertCode.do")
     @ResponseBody
-    public String insertCode(Order order) throws Exception {
-        sqlOperation.INSERToperation(ObjectToMap.objectToMap(order), Order.class);
+    public String insertCode(Code code) throws Exception {
+        sqlOperation.INSERToperation(ObjectToMap.objectToMap(code), Code.class);
         return "success";
     }
     //jiu表增加
     @RequestMapping("insertJiu.do")
     @ResponseBody
-    public String insertJiu(Order order) throws Exception {
-        sqlOperation.INSERToperation(ObjectToMap.objectToMap(order), Order.class);
+    public String insertJiu(Jiu jiu) throws Exception {
+        jiu.setId(StringUtils.getUUID());
+        sqlOperation.INSERToperation(ObjectToMap.objectToMap(jiu), Jiu.class);
         return "success";
     }
     //用户表增加
     @RequestMapping("insertUser.do")
     @ResponseBody
-    public String insertUser(User User) throws Exception {
-        sqlOperation.INSERToperation(ObjectToMap.objectToMap(User), User.class);
+    public String insertUser(User user) throws Exception {
+        user.setId(StringUtils.getUUID());
+        sqlOperation.INSERToperation(ObjectToMap.objectToMap(user), User.class);
         return "success";
     }
 
