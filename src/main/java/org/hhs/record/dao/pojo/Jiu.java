@@ -9,6 +9,6 @@ import java.util.Date;
 @ToString
 public class Jiu {
     private String id;
-    private String j_name;
-    private String j_time;
+    private String jName;
+    private String mark;
 }

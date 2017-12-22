@@ -15,7 +15,7 @@
     <table cellpadding="5">
         <tr>
             <td>姓名:</td>
-            <td><input class="easyui-textbox" type="text" name="username" data-options="required:true,missingMessage:'必填项',invalidMessage:'必填项'"></input></td>
+            <td><input class="easyui-textbox" type="text" name="name" data-options="required:true,missingMessage:'必填项',invalidMessage:'必填项'"></input></td>
         </tr>
         <tr>
             <td>电话:</td>
@@ -28,8 +28,8 @@
     </table>
 </form>
 <div style="text-align:center;padding:5px">
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
-    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">重置</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitFormUser()">提交</a>
+    <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearFormUser()">重置</a>
 </div>
 <script>
     $.extend($.fn.validatebox.defaults.rules, {
@@ -47,7 +47,7 @@
             message: '请输入正确的电话号码。'
         }
     });
-    function submitForm(){
+    function submitFormUser(){
         $('#f_user').form('submit',{
             url:getContextPath()+"/home/insertUser.do",
             onSubmit:function(){
@@ -55,17 +55,13 @@
             },
             success:function(data){
                 $('#addUserDlg').dialog('close');
-                $.messager.show({
-                    title:'我的消息',
-                    msg:'添加成功',
-                    timeout:3000,
-                    showType:'slide'
-                });
-                $('#userCombo').combobox('reload',getContextPath()+"/home/getUserListApi.do");
+                $.messager.alert('我的消息',data,'info');
+//                $('#userCombo').combobox('reload',getContextPath()+"/home/getUserListApi.do");
+                window.location.href=getContextPath();
             }
         });
     }
-    function clearForm(){
+    function clearFormUser(){
         $('#f_user').form('clear');
     }
 </script>

@@ -16,17 +16,19 @@
         <table cellpadding="5">
             <tr>
                 <td>酒名:</td>
-                <td><input class="easyui-textbox" type="text" name="j_name" data-options="required:true,missingMessage:'必填项',invalidMessage:'必填项'"></input></td>
+                <td><input class="easyui-textbox" type="text" name="jName" data-options="required:true,missingMessage:'必填项',invalidMessage:'必填项'"></input></td>
             </tr>
             <tr>
-                <td>生产日期:</td>
-                <td><input id="j_time" class="easyui-datebox" type="text" name="j_time"></input></td>
+                <td>备注:</td>
+                <td><input id="j_time" class="easyui-textbox" type="text" name="mark"></input></td>
             </tr>
         </table>
     </form>
     <div style="text-align:center;padding:5px">
         <a href="javascript:void(0)" class="easyui-linkbutton" onclick="submitForm()">提交</a>
         <a href="javascript:void(0)" class="easyui-linkbutton" onclick="clearForm()">重置</a>
+        <%--<button onclick="submitForm()">提交</button>--%>
+        <%--<button onclick="clearForm()">重置</button>--%>
     </div>
     <script>
         $.extend($.fn.validatebox.defaults.rules, {
@@ -51,14 +53,10 @@
                     return $(this).form('enableValidation').form('validate');
                 },
                 success:function(data){
-                    $.messager.show({
-                        title:'我的消息',
-                        msg:'添加成功',
-                        timeout:3000,
-                        showType:'slide'
-                    });
+                    $.messager.alert('我的消息',data,'info');
                     $('#addJiuDlg').dialog('close');
-                    $('#jiuCombo').combobox('reload',getContextPath()+"/home/getJiuListApi.do");
+//                    $('#jiuCombo').combobox('reload',getContextPath()+"/home/getJiuListApi.do");
+                    window.location.href=getContextPath();
                 }
             });
         }

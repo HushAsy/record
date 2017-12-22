@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <!--org.apache.commons.dbcp.BasicDataSource-->
-    <!--<bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">-->
-    <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource">
-        <property name="driverClassName" value="sun.jdbc.odbc.JdbcOdbcDriver" />
-        <!--<property name="url" value="jdbc:odbc:driver={Microsoft Access Driver (*.accdb)};DBQ=D:\2017\database\record1.accdb" />-->
-        <property name="url" value="jdbc:odbc:record"></property>
-        <!--<property name="username" value="root" />-->
-        <!--<property name="password" value="123456" />-->
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="${jdbcUrl}"></property>
+        <property name="username" value="root" />
+        <property name="password" value="666666" />
         <!-- 初始化连接大小 -->
         <property name="initialSize" value="1" />
         <!-- 连接池最大使用连接数量 -->
@@ -37,6 +35,7 @@
         <!-- 关闭abanded连接时输出错误日志 -->
         <property name="logAbandoned" value="true" />
     </bean>
+
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource" />
         <!-- 自动扫描mapping.xml文件 -->

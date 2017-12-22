@@ -1,4 +1,8 @@
 package org.hhs.record.dao.mapper;
 
-public interface BaseMapper {
+import java.util.List;
+public interface  BaseMapper<T> {
+    int insert(T t);
+    List<T> selectAll();
+    T selectByName(String name);
 }

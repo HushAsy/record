@@ -1,19 +1,16 @@
 package org.hhs.record.service;
 
 import org.hhs.record.dao.mapper.BaseMapper;
-import org.hhs.record.dao.mapper.UserMapper;
-import org.hhs.record.dao.pojo.User;
+import org.hhs.record.dao.mapper.JiuMapper;
+import org.hhs.record.dao.pojo.Jiu;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-
 @Service
-public class UserService extends BaseService<User>{
+public class JiuService extends BaseService<Jiu> {
     @Autowired
-    private UserMapper userMapper;
-
+    private JiuMapper jiuMapper;
     public BaseMapper getMapper() {
-        return userMapper;
+        return jiuMapper;
     }
 }

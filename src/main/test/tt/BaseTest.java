@@ -2,16 +2,10 @@ package tt;
 
 import org.hhs.record.dao.pojo.Code;
 import org.hhs.record.dao.pojo.Jiu;
-import org.hhs.record.dao.pojo.Order;
+import org.hhs.record.dao.pojo.Record;
 import org.hhs.record.dao.pojo.User;
-import org.hhs.record.utils.DatabaseSource;
-import org.hhs.record.utils.ObjectToMap;
 import org.hhs.record.utils.SqlOperation;
 import org.hhs.record.utils.StringUtils;
-import org.mockito.internal.matchers.Or;
-
-import java.sql.*;
-import java.util.*;
 
 public class BaseTest {
     public static void main(String...args) throws Exception {
@@ -51,16 +45,14 @@ public class BaseTest {
 //        connection.close();
         Jiu jiu = new Jiu();
         jiu.setId(StringUtils.getUUID());
-        jiu.setJ_name(StringUtils.getUUID());
-        jiu.setJ_time(StringUtils.getUUID());
         Code code = new Code();
         code.setCode(StringUtils.getUUID());
         code.setId(StringUtils.getUUID());
-        User user = new User();
-        user.setAddress("hubbb");
-        user.setId(StringUtils.getUUID());
-        user.setTel("126677");
-        user.setUsername("mike");
+//        User user = new User();
+//        user.setAddress("hubbb");
+//        user.setId(StringUtils.getUUID());
+//        user.setTel("126677");
+//        user.setUsername("mike");
 
 //        resultToMap.INSERToperation(ObjectToMap.objectToMap(user), User.class);
 //        String str = "select * from [order] o inner join [user] u on o.u_id=u.id where o.c_id='7a9fa1a2b7744489b428e2bf0235ea70'";
@@ -68,7 +60,7 @@ public class BaseTest {
 //        String str = "select * from [user]";
 //        List<Object> list = resultToMap.GETObjectLists(str);
 //        System.out.println(list);
-        resultToMap.DELETEoperation(null, Order.class);
+        resultToMap.DELETEoperation(null, Record.class);
         resultToMap.DELETEoperation(null, Code.class);
         resultToMap.DELETEoperation(null, User.class);
         resultToMap.DELETEoperation(null, Jiu.class);

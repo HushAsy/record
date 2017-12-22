@@ -22,8 +22,8 @@
     <div data-options="region:'north'" style="height:50px">
         <div style="margin-top:10px;">
             <form id="f_main" method="post" enctype="multipart/form-data" style="float:left">
-                酒类型:<input id="jiuCombo" name="j_id" style="width:60px;"/>&nbsp;&nbsp;
-                人员姓名:<input id="userCombo" name="u_id" style="width:60px;"/>
+                酒类型:<input id="jiuCombo" name="rJId" style="width:60px;"/>&nbsp;&nbsp;
+                人员姓名:<input id="userCombo" name="rUId" style="width:60px;"/>
                 &nbsp;<input id="filebox" name="file" data-options="prompt:'上传文件...'"/>
                 <a href="#" id="saveFile"  style="margin-right:40px;margin-left: 10px">保存</a>
             </form>
@@ -62,9 +62,9 @@
         fit:true,
         fitColumns:true,
         columns:[[
-            {field:'username',title:'姓名',width:150,align:'center'},
-            {field:'o_time',title:'日期',width:150,align:'center'},
-            {field:'j_name',title:'酒名',width:150,align:'center'}
+            {field:'name',title:'姓名',width:150,align:'center'},
+            {field:'jName',title:'酒名',width:150,align:'center'},
+            {field:'oTime',title:'日期',width:150,align:'center'}
         ]]
     });
     $('#addJiu').linkbutton({
@@ -104,7 +104,7 @@
     $('#jiuCombo').combobox({
         url:getContextPath()+"/home/getJiuListApi.do",
         valueField: 'id',
-        textField:'j_name',
+        textField:'jName',
         editable:false,
         required:true,
         missingMessage:'必选项',
@@ -118,7 +118,7 @@
     $('#userCombo').combobox({
         url:getContextPath()+"/home/getUserListApi.do",
         valueField: 'id',
-        textField:'username',
+        textField:'name',
         editable:false,
         required:true,
         missingMessage:'必选项',
@@ -168,6 +168,7 @@
     }
     $('#searchBox').textbox({
         width:400,
+        prompt:'根据条形码或姓名查找...',
         icons: [{
             iconCls:'icon-search',
             handler: function(e){

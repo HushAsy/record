@@ -3,7 +3,7 @@
 <mapper namespace="org.hhs.record.dao.mapper.UserMapper">
     <resultMap id="BaseResultMap" type="org.hhs.record.dao.pojo.User">
         <id column="Id" jdbcType="INTEGER" property="id" />
-        <result column="username" jdbcType="VARCHAR" property="username" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
         <result column="tel" jdbcType="INTEGER" property="tel" />
         <result column="address" jdbcType="VARCHAR" property="address" />
     </resultMap>
@@ -20,12 +20,20 @@
         <!--delete from user-->
         <!--where Id = #{id,jdbcType=INTEGER}-->
     <!--</delete>-->
-    <!--<insert id="insert" parameterType="org.lf.yydp.db.pojo.User">-->
-        <!--insert into user (Id, uname, password,-->
-        <!--name)-->
-        <!--values (#{id,jdbcType=INTEGER}, #{uname,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},-->
-        <!--#{name,jdbcType=VARCHAR})-->
-    <!--</insert>-->
+    <select id="selectAll" resultType="org.hhs.record.dao.pojo.User">
+        SELECT * FROM user
+    </select>
+    <!--<select id="selectByName" parameterType="org.hhs.record.dao.pojo.User" resultType="org.hhs.record.dao.pojo.User">-->
+        <!--SELECT * FROM USER WHERE NAME = #{name}-->
+    <!--</select>-->
+    <insert id="insert" parameterType="org.hhs.record.dao.pojo.User">
+        insert into user (id, name, tel,address)
+        values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{tel,jdbcType=VARCHAR},
+        #{address,jdbcType=VARCHAR})
+    </insert>
+    <select id="selectByName" parameterType="java.lang.String" resultType="org.hhs.record.dao.pojo.User">
+        SELECT * FROM user where name=#{name}
+    </select>
     <!--<insert id="insertSelective" parameterType="org.lf.yydp.db.pojo.User">-->
         <!--insert into user-->
         <!--<trim prefix="(" suffix=")" suffixOverrides=",">-->
