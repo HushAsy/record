@@ -43,9 +43,6 @@ public class HomeController {
     @Autowired
     private CodeService codeService;
 
-    @Autowired
-    private SqlOperation sqlOperation;
-
     @RequestMapping("jiu.do")
     public String toJiu(){
         return "/addJiu";
@@ -58,7 +55,7 @@ public class HomeController {
 
     @RequestMapping("batchInsertOrder.do")
     @ResponseBody
-    public String batchInsert(@RequestParam("file") MultipartFile mfile,Record order){//u_id,j_id
+    public String batchInsert(@RequestParam("file") MultipartFile mfile,Record order){
         InputStream inputStream = null;
         try {
             inputStream = mfile.getInputStream();
@@ -100,45 +97,25 @@ public class HomeController {
                 log.error("插入ORDER表失败", e);
             }
         }
-
         return "success";
     }
 
     @RequestMapping("getUserListApi.do")
     @ResponseBody
-    public List<User> getUserLists() throws Exception {
+    public List<User> getUserLists() {
         return userService.getAll();
     }
 
 
     @RequestMapping("getJiuListApi.do")
     @ResponseBody
-    public List<Jiu> getJiuLists() throws Exception {
+    public List<Jiu> getJiuLists() {
         return jiuService.getAll();
     }
 
     @RequestMapping("queryByCode.do")
     @ResponseBody
-    public List<Map<String, Object>> queryOrderInfo(String code) throws Exception {
-
-//        List<Object> listCodes = sqlOperation.GETObjectLists("select * from [code] where code="+"'"+code+"'");
-//        String id = "";
-//        if (listCodes.size() == 0){
-//            return Collections.emptyList();
-//        }else {
-//            Map<String, Object> map = (Map) listCodes.get(0);
-//            id = (String) map.get("id");
-//        }
-//        String sql = "select * from [order] o inner join [user] u on o.u_id=u.id where o.c_id='"+id+"'";
-//        List<Object> objectList = sqlOperation.GETObjectLists(sql);
-//        for (Object obj : objectList){
-//            Map<String, Object> map = (Map<String, Object>) obj;
-//            String jId = (String) map.get("j_id");
-//            String jiuSql = "select * from [jiu] where id='"+jId+"'";
-//            List<Object> objectList1 = sqlOperation.GETObjectLists(jiuSql);
-//            Map<String, Object> tempMap = (Map<String, Object>) objectList1.get(0);
-//            map.put("j_name", tempMap.get("j_name"));
-//        }
+    public List<Map<String, Object>> queryOrderInfo(String code) {
         return recordService.getRecordByCodeOrName(code);
     }
 
@@ -147,24 +124,13 @@ public class HomeController {
     @ResponseBody
     public String insertOrder(Record order) throws Exception {
         order.setRId(StringUtils.getUUID());
-//        sqlOperation.INSERToperation(ObjectToMap.objectToMap(order), Record.class);
-        return "success";
-    }
-
-
-
-    //code表增加
-    @RequestMapping("insertCode.do")
-    @ResponseBody
-    public String insertCode(Code code) throws Exception {
-//        sqlOperation.INSERToperation(ObjectToMap.objectToMap(code), Code.class);
         return "success";
     }
 
     //jiu表增加
     @RequestMapping("insertJiu.do")
     @ResponseBody
-    public String insertJiu(Jiu jiu) throws Exception {
+    public String insertJiu(Jiu jiu) {
         jiu.setId(StringUtils.getUUID());
         if (jiuService.selectByName(jiu.getJName()) == null) {
             if (jiuService.insert(jiu) == 1) {
@@ -179,7 +145,7 @@ public class HomeController {
     //用户表增加
     @RequestMapping("insertUser.do")
     @ResponseBody
-    public String insertUser(User user) throws Exception {
+    public String insertUser(User user) {
         user.setId(StringUtils.getUUID());
         if (userService.selectByName(user.getName()) == null) {
             if (userService.insert(user) == 1) {

@@ -110,7 +110,7 @@
         missingMessage:'必选项',
         invalidMessage:'必选项',
         onLoadSuccess:function (data) {
-            if(data[0]) {
+            if(data && data[0]) {
                 $('#jiuCombo').combobox('select', data[0].id);
             }
         }

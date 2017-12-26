@@ -19,7 +19,7 @@
         SELECT * FROM record where id=#{name}
     </select>
     <select id="selectByCode" parameterType="java.lang.String" resultType="java.util.Map">
-        SELECT u.name as name,r.r_o_time as oTime,j.j_name as jName
+        SELECT u.name as name,r.r_o_time as oTime,j.j_name as jName,j.mark as mark
         FROM record r,code c,user u,jiu j
         WHERE r.r_u_id = u.id and c.id = r.r_c_id and r.r_j_id=j.id and (c.code=#{code} or u.name=#{code})
     </select>
